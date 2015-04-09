@@ -1,0 +1,28 @@
+all: qbeezwin.exe qbeezplay.exe qbeezserver.exe
+
+CC = cl.exe
+
+CXXFLAGS = -nologo -O2 -GX -MD -DWIN32 -D_WIN32_WINNT=0x0500
+
+SOURCES_W = qbeezwin.cpp QBeezPlayer.cpp
+OBJECTS_W = $(SOURCES_W:.cpp=.obj)
+
+SOURCES_P = qbeezplay.cpp QBeezPlayer.cpp
+OBJECTS_P = $(SOURCES_P:.cpp=.obj)
+
+SOURCES_S = qbeezserver.cpp QBeezPlayer.cpp
+OBJECTS_S = $(SOURCES_S:.cpp=.obj)
+
+
+qbeezwin.exe: $(OBJECTS_W)
+	link -nologo -out:qbeezwin.exe $(OBJECTS_W) kernel32.lib gdi32.lib user32.lib comctl32.lib ws2_32.lib
+
+qbeezplay.exe: $(OBJECTS_P)
+	link -nologo -out:qbeezplay.exe $(OBJECTS_P) kernel32.lib gdi32.lib user32.lib comctl32.lib ws2_32.lib
+
+qbeezserver.exe: $(OBJECTS_S)
+	link -nologo -out:qbeezserver.exe $(OBJECTS_S) kernel32.lib gdi32.lib user32.lib comctl32.lib ws2_32.lib
+
+%.obj : %.cpp
+	$(CC) $(CXXFLAGS) -o $@ -c $<
+
